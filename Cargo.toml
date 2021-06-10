@@ -1,0 +1,14 @@
+[package]
+name = "unamers"
+version = "0.1.0"
+authors = ["ran_degang@163.com"]
+edition = "2018"
+
+description = "Print certain system information."
+keywords  = ["uname", "rust exercise"]
+repository = ""
+readme = "README.md"
+
+[dependencies]
+libc = "0.2"
+structopt = "0.3"

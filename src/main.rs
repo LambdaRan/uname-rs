@@ -1,15 +1,15 @@
+use std::env;
 use std::io;
 use structopt::StructOpt;
 
 mod opts;
-mod writer;
 mod uname;
+mod writer;
 
 use crate::opts::Opts;
 use crate::writer::WriteReceiver;
 
 fn main() {
-
     let opt = Opts::from_args();
     let stdout = io::stdout();
     let lock = stdout.lock();
@@ -25,7 +25,13 @@ fn main_generic<W: WriteReceiver>(mut opt: Opts, handle: &mut W) {
     }
 
     let infos = uname::uname().unwrap();
-    if !(opt.kernel_name || opt.nodename || opt.kernel_release || opt.kernel_version || opt.machine) {
+    if !(opt.kernel_name
+        || opt.nodename
+        || opt.kernel_release
+        || opt.kernel_version
+        || opt.machine
+        || opt.processor)
+    {
         opt.kernel_name = true
     }
 
@@ -48,5 +54,10 @@ fn main_generic<W: WriteReceiver>(mut opt: Opts, handle: &mut W) {
     if opt.machine {
         handle.write_with_separator(uname::to_str(&infos.machine), true);
     }
+
+    if opt.processor {
+        handle.write_with_separator(env::consts::ARCH, true);
+    }
+
     handle.write_with_separator("\n", false);
 }

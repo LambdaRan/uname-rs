@@ -4,7 +4,7 @@ use structopt::StructOpt;
 #[structopt(name = "unamers", about = "Print certain system information.")]
 #[structopt(setting = structopt::clap::AppSettings::AllowLeadingHyphen)]
 pub struct Opts {
-    /// Print all information, in the following order.
+    /// Print all information, in the following order [snrvmp].
     #[structopt(short, long)]
     pub all: bool,
 
@@ -27,6 +27,10 @@ pub struct Opts {
     /// Print the machine hardware name.
     #[structopt(short = "m", long)]
     pub machine: bool,
+
+    /// Print the processor type.
+    #[structopt(short, long)]
+    pub processor: bool,
 
     /// Print the operating system.
     #[structopt(short, long)]

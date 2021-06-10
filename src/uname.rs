@@ -1,6 +1,7 @@
 use std::ffi::CStr;
 use std::mem;
 use std::str::from_utf8_unchecked;
+use std::env;
 
 pub fn uname() -> Result<libc::utsname, ()> {
     let mut uname = unsafe { mem::zeroed() };
@@ -20,11 +21,12 @@ pub fn to_str(bytes: &[libc::c_char]) -> &str {
 pub fn all_uname_infos() -> String {
     let uname = uname().unwrap();
     format!(
-        "{} {} {} {} {}",
+        "{} {} {} {} {} {}",
         to_str(&uname.sysname),
         to_str(&uname.nodename),
         to_str(&uname.release),
         to_str(&uname.version),
         to_str(&uname.machine),
+        env::consts::ARCH,
     )
 }
